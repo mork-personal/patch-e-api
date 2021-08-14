@@ -8,16 +8,16 @@ function junoPatchDataBuilder() {
         this.junoPatchData.lfoDelayTime = lfoDelayTime;
         return this;
     }
-    this.dcoLfo = dcoLfo => {
-        this.junoPatchData.dcoLfo = dcoLfo;
+    this.lfoPitchModulation = lfoPitchModulation => {
+        this.junoPatchData.lfoPitchModulation = lfoPitchModulation;
         return this;
     }
-    this.dcoPwm = dcoPwm => {
-        this.junoPatchData.dcoPwm = dcoPwm;
+    this.pulseWidthModulation = pulseWidthModulation => {
+        this.junoPatchData.pulseWidthModulation = pulseWidthModulation;
         return this;
     }
-    this.dcoNoise = dcoNoise => {
-        this.junoPatchData.dcoNoise = dcoNoise;
+    this.noiseLevel = noiseLevel => {
+        this.junoPatchData.noiseLevel = noiseLevel;
         return this;
     }
     this.vcfFreq = vcfFreq => {
@@ -36,8 +36,8 @@ function junoPatchDataBuilder() {
         this.junoPatchData.vcfLfo = vcfLfo;
         return this;
     }
-    this.vcfKybd = vcfKybd => {
-        this.junoPatchData.vcfKybd = vcfKybd;
+    this.vcfKeyboardTracking = vcfKeyboardTracking => {
+        this.junoPatchData.vcfKeyboardTracking = vcfKeyboardTracking;
         return this;
     }
     this.vcaLevel = vcaLevel => {
@@ -60,16 +60,44 @@ function junoPatchDataBuilder() {
         this.junoPatchData.envR = envR;
         return this;
     }
-    this.dcoSub = dcoSub => {
-        this.junoPatchData.dcoSub = dcoSub;
+    this.subOscillatorLevel = subOscillatorLevel => {
+        this.junoPatchData.subOscillatorLevel = subOscillatorLevel;
         return this;
     }
-    this.switchesOne = switchesOne => {
-        this.junoPatchData.switchesOne = switchesOne;
+    this.octaveLevel = octaveLevel => {
+        this.junoPatchData.octaveLevel = octaveLevel;
         return this;
     }
-    this.switchesTwo = switchesTwo => {
-        this.junoPatchData.switchesTwo = switchesTwo;
+    this.isPulseOn = isPulseOn => {
+        this.junoPatchData.isPulseOn = isPulseOn;
+        return this;
+    }
+    this.isSawOn = isSawOn => {
+        this.junoPatchData.isSawOn = isSawOn;
+        return this;
+    }
+    this.isChorusOn = isChorusOn => {
+        this.junoPatchData.isChorusOn = isChorusOn;
+        return this;
+    }
+    this.chorusLevel = chorusLevel => {
+        this.junoPatchData.chorusLevel = chorusLevel;
+        return this;
+    }
+    this.isPwmControlledByLFO = isPwmControlledByLFO => {
+        this.junoPatchData.isPwmControlledByLFO = isPwmControlledByLFO;
+        return this;
+    }
+    this.isVcaControlledByEnvelope = isVcaControlledByEnvelope => {
+        this.junoPatchData.isVcaControlledByEnvelope = isVcaControlledByEnvelope;
+        return this;
+    }
+    this.isVcfEnvelopePolarityPositive = isVcfEnvelopePolarityPositive => {
+        this.junoPatchData.isVcfEnvelopePolarityPositive = isVcfEnvelopePolarityPositive;
+        return this;
+    }
+    this.highPassFilterLevel = highPassFilterLevel => {
+        this.junoPatchData.highPassFilterLevel = highPassFilterLevel;
         return this;
     }
     this.build = () => this.junoPatchData;

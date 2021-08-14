@@ -1,5 +1,8 @@
 const expect = require('chai').expect;
 const hexToJuno106Converter = require('../juno106/hexConverter');
+const octaveLevel = require('../juno106/octaveLevel');
+const chorusLevel = require('../juno106/chorusLevel');
+const highPassFilterLevel = require('../juno106/highPassFilterLevel');
 
 describe('The hex to Juno 106 converter', function() {
 
@@ -37,52 +40,52 @@ lfoDelayTimeRates.forEach(function (test) {
   });
 });
 
-var dcoLfos = [
+var lfoPitchModulations = [
     {patch: "F0 41 30 00 00 14 31 00 66 00 23 0D 3A 00 56 6C 03 31 2D 20 00 51 11 F7", expected: 0},
     {patch: "F0 41 30 00 00 14 31 0F 66 00 23 0D 3A 00 56 6C 03 31 2D 20 00 51 11 F7", expected: 15},
     {patch: "F0 41 30 00 00 14 31 3A 66 00 23 0D 3A 00 56 6C 03 31 2D 20 00 51 11 F7", expected: 58},
     {patch: "F0 41 30 00 00 14 31 FF 66 00 23 0D 3A 00 56 6C 03 31 2D 20 00 51 11 F7", expected: 255}
   ];
-dcoLfos.forEach(function (test) {
-  it("should parse dco lfo from hex to " + test.expected, function () {
+lfoPitchModulations.forEach(function (test) {
+  it("should parse lfoPitchModulation from hex to " + test.expected, function () {
     const patchNoSpaces = test.patch.replace(/\s/g, "");
 
     const junoPatchData = hexToJuno106Converter.convert(patchNoSpaces);
 
-    expect(junoPatchData.dcoLfo).to.equal(test.expected);
+    expect(junoPatchData.lfoPitchModulation).to.equal(test.expected);
   });
 });
 
-var dcoPwms = [
+var pulseWidthModulations = [
     {patch: "F0 41 30 00 00 14 31 00 00 00 23 0D 3A 00 56 6C 03 31 2D 20 00 51 11 F7", expected: 0},
     {patch: "F0 41 30 00 00 14 31 00 0F 00 23 0D 3A 00 56 6C 03 31 2D 20 00 51 11 F7", expected: 15},
     {patch: "F0 41 30 00 00 14 31 00 3A 00 23 0D 3A 00 56 6C 03 31 2D 20 00 51 11 F7", expected: 58},
     {patch: "F0 41 30 00 00 14 31 00 FF 00 23 0D 3A 00 56 6C 03 31 2D 20 00 51 11 F7", expected: 255}
   ];
-dcoPwms.forEach(function (test) {
-  it("should parse dco pwm from hex to " + test.expected, function () {
+pulseWidthModulations.forEach(function (test) {
+  it("should parse pulseWidthModulation from hex to " + test.expected, function () {
     const patchNoSpaces = test.patch.replace(/\s/g, "");
 
     const junoPatchData = hexToJuno106Converter.convert(patchNoSpaces);
 
-    expect(junoPatchData.dcoPwm).to.equal(test.expected);
+    expect(junoPatchData.pulseWidthModulation).to.equal(test.expected);
   });
 });
 
 // was 00
-var dcoNoises = [
+var noiseLevels = [
     {patch: "F0 41 30 00 00 14 31 00 66 00 23 0D 3A 00 56 6C 03 31 2D 20 00 51 11 F7", expected: 0},
     {patch: "F0 41 30 00 00 14 31 00 66 0F 23 0D 3A 00 56 6C 03 31 2D 20 00 51 11 F7", expected: 15},
     {patch: "F0 41 30 00 00 14 31 00 66 3A 23 0D 3A 00 56 6C 03 31 2D 20 00 51 11 F7", expected: 58},
     {patch: "F0 41 30 00 00 14 31 00 66 FF 23 0D 3A 00 56 6C 03 31 2D 20 00 51 11 F7", expected: 255}
   ];
-dcoNoises.forEach(function (test) {
-  it("should parse dco noise from hex to " + test.expected, function () {
+noiseLevels.forEach(function (test) {
+  it("should parse noiseLevel from hex to " + test.expected, function () {
     const patchNoSpaces = test.patch.replace(/\s/g, "");
 
     const junoPatchData = hexToJuno106Converter.convert(patchNoSpaces);
 
-    expect(junoPatchData.dcoNoise).to.equal(test.expected);
+    expect(junoPatchData.noiseLevel).to.equal(test.expected);
   });
 });
 
@@ -150,19 +153,19 @@ vcfLfos.forEach(function (test) {
   });
 });
 
-var vcfKybds = [
+var vcfKeyboardTrackings = [
     {patch: "F0 41 30 00 00 14 31 00 66 00 23 0D 3B 01 00 6C 03 31 2D 20 02 51 11 F7", expected: 0},
     {patch: "F0 41 30 00 00 14 31 00 66 00 23 0D 3B 01 0F 6C 03 31 2D 20 02 51 11 F7", expected: 15},
     {patch: "F0 41 30 00 00 14 31 00 66 00 23 0D 3B 01 3A 6C 03 31 2D 20 02 51 11 F7", expected: 58},
     {patch: "F0 41 30 00 00 14 31 00 66 00 23 0D 3B 01 FF 6C 03 31 2D 20 02 51 11 F7", expected: 255}
   ];
-vcfKybds.forEach(function (test) {
-  it("should parse vcf Kybds from hex to " + test.expected, function () {
+vcfKeyboardTrackings.forEach(function (test) {
+  it("should parse vcfKeyboardTrackings from hex to " + test.expected, function () {
     const patchNoSpaces = test.patch.replace(/\s/g, "");
 
     const junoPatchData = hexToJuno106Converter.convert(patchNoSpaces);
 
-    expect(junoPatchData.vcfKybd).to.equal(test.expected);
+    expect(junoPatchData.vcfKeyboardTracking).to.equal(test.expected);
   });
 });
 
@@ -246,20 +249,172 @@ envRs.forEach(function (test) {
   });
 });
 
-var dcoSubs = [
+var subOscillatorLevels = [
     {patch: "F0 41 30 00 00 14 31 00 66 00 23 0D 3B 01 56 6C 03 31 2D 20 00 51 11 F7", expected: 0},
     {patch: "F0 41 30 00 00 14 31 00 66 00 23 0D 3B 01 56 6C 03 31 2D 20 0F 51 11 F7", expected: 15},
     {patch: "F0 41 30 00 00 14 31 00 66 00 23 0D 3B 01 56 6C 03 31 2D 20 3A 51 11 F7", expected: 58},
     {patch: "F0 41 30 00 00 14 31 00 66 00 23 0D 3B 01 56 6C 03 31 2D 20 FF 51 11 F7", expected: 255}
   ];
-dcoSubs.forEach(function (test) {
-  it("should parse dco sub from hex to " + test.expected, function () {
+subOscillatorLevels.forEach(function (test) {
+  it("should parse subOscillatorLevel from hex to " + test.expected, function () {
     const patchNoSpaces = test.patch.replace(/\s/g, "");
 
     const junoPatchData = hexToJuno106Converter.convert(patchNoSpaces);
 
-    expect(junoPatchData.dcoSub).to.equal(test.expected);
+    expect(junoPatchData.subOscillatorLevel).to.equal(test.expected);
   });
 });
+
+var octaveLevels = [
+    {patch: "F0 41 30 00 00 14 31 00 66 00 23 0D 3B 01 56 6C 03 31 2D 20 00 80 11 F7", expected: octaveLevel.octaveLevels.FOUR},
+    {patch: "F0 41 30 00 00 14 31 00 66 00 23 0D 3B 01 56 6C 03 31 2D 20 00 90 11 F7", expected: octaveLevel.octaveLevels.FOUR},
+    {patch: "F0 41 30 00 00 14 31 00 66 00 23 0D 3B 01 56 6C 03 31 2D 20 0F 40 11 F7", expected: octaveLevel.octaveLevels.EIGHT},
+    {patch: "F0 41 30 00 00 14 31 00 66 00 23 0D 3B 01 56 6C 03 31 2D 20 0F 50 11 F7", expected: octaveLevel.octaveLevels.EIGHT},
+    {patch: "F0 41 30 00 00 14 31 00 66 00 23 0D 3B 01 56 6C 03 31 2D 20 3A 20 11 F7", expected: octaveLevel.octaveLevels.SIXTEEN},
+    {patch: "F0 41 30 00 00 14 31 00 66 00 23 0D 3B 01 56 6C 03 31 2D 20 3A 30 11 F7", expected: octaveLevel.octaveLevels.SIXTEEN}
+  ];
+octaveLevels.forEach(function (test) {
+  it("should set octaveLevel based on first 3 bits of byte 21 ", function () {
+    const patchNoSpaces = test.patch.replace(/\s/g, "");
+
+    const junoPatchData = hexToJuno106Converter.convert(patchNoSpaces);
+
+    expect(junoPatchData.octaveLevel).to.equal(test.expected);
+  });
+});
+
+var isPulseOns = [
+    {patch: "F0 41 30 00 00 14 31 00 66 00 23 0D 3B 01 56 6C 03 31 2D 20 00 10 11 F7", expected: true},
+    {patch: "F0 41 30 00 00 14 31 00 66 00 23 0D 3B 01 56 6C 03 31 2D 20 00 F0 11 F7", expected: true},
+    {patch: "F0 41 30 00 00 14 31 00 66 00 23 0D 3B 01 56 6C 03 31 2D 20 0F 00 11 F7", expected: false},
+    {patch: "F0 41 30 00 00 14 31 00 66 00 23 0D 3B 01 56 6C 03 31 2D 20 0F E0 11 F7", expected: false}
+  ];
+isPulseOns.forEach(function (test) {
+  it("should set isPulseOn based on fourth bit of byte 21 ", function () {
+    const patchNoSpaces = test.patch.replace(/\s/g, "");
+
+    const junoPatchData = hexToJuno106Converter.convert(patchNoSpaces);
+
+    expect(junoPatchData.isPulseOn).to.equal(test.expected);
+  });
+});
+
+var isSawOns = [
+    {patch: "F0 41 30 00 00 14 31 00 66 00 23 0D 3B 01 56 6C 03 31 2D 20 00 08 11 F7", expected: true},
+    {patch: "F0 41 30 00 00 14 31 00 66 00 23 0D 3B 01 56 6C 03 31 2D 20 00 0F 11 F7", expected: true},
+    {patch: "F0 41 30 00 00 14 31 00 66 00 23 0D 3B 01 56 6C 03 31 2D 20 0F 00 11 F7", expected: false},
+    {patch: "F0 41 30 00 00 14 31 00 66 00 23 0D 3B 01 56 6C 03 31 2D 20 0F 07 11 F7", expected: false}
+  ];
+isSawOns.forEach(function (test) {
+  it("should set isSawOn based on fifth bit of byte 21 ", function () {
+    const patchNoSpaces = test.patch.replace(/\s/g, "");
+
+    const junoPatchData = hexToJuno106Converter.convert(patchNoSpaces);
+
+    expect(junoPatchData.isSawOn).to.equal(test.expected);
+  });
+});
+
+var isChorusOns = [
+    {patch: "F0 41 30 00 00 14 31 00 66 00 23 0D 3B 01 56 6C 03 31 2D 20 00 04 11 F7", expected: false},
+    {patch: "F0 41 30 00 00 14 31 00 66 00 23 0D 3B 01 56 6C 03 31 2D 20 00 0F 11 F7", expected: false},
+    {patch: "F0 41 30 00 00 14 31 00 66 00 23 0D 3B 01 56 6C 03 31 2D 20 0F 00 11 F7", expected: true},
+    {patch: "F0 41 30 00 00 14 31 00 66 00 23 0D 3B 01 56 6C 03 31 2D 20 0F 0B 11 F7", expected: true}
+  ];
+isChorusOns.forEach(function (test) {
+  it("should set isChorusOn based on sixth bit of byte 21 ", function () {
+    const patchNoSpaces = test.patch.replace(/\s/g, "");
+
+    const junoPatchData = hexToJuno106Converter.convert(patchNoSpaces);
+
+    expect(junoPatchData.isChorusOn).to.equal(test.expected);
+  });
+});
+
+var chorusLevels = [
+    {patch: "F0 41 30 00 00 14 31 00 66 00 23 0D 3B 01 56 6C 03 31 2D 20 00 02 11 F7", expected: chorusLevel.chorusLevels.ONE},
+    {patch: "F0 41 30 00 00 14 31 00 66 00 23 0D 3B 01 56 6C 03 31 2D 20 00 0F 11 F7", expected: chorusLevel.chorusLevels.ONE},
+    {patch: "F0 41 30 00 00 14 31 00 66 00 23 0D 3B 01 56 6C 03 31 2D 20 0F 00 11 F7", expected: chorusLevel.chorusLevels.TWO},
+    {patch: "F0 41 30 00 00 14 31 00 66 00 23 0D 3B 01 56 6C 03 31 2D 20 0F 0D 11 F7", expected: chorusLevel.chorusLevels.TWO}
+  ];
+chorusLevels.forEach(function (test) {
+  it("should set chorusLevel based on seventh bit of byte 21 ", function () {
+    const patchNoSpaces = test.patch.replace(/\s/g, "");
+
+    const junoPatchData = hexToJuno106Converter.convert(patchNoSpaces);
+
+    expect(junoPatchData.chorusLevel).to.equal(test.expected);
+  });
+});
+
+var isPwmControlledByLFOs = [
+    {patch: "F0 41 30 00 00 14 31 00 66 00 23 0D 3B 01 56 6C 03 31 2D 20 00 04 81 F7", expected: false},
+    {patch: "F0 41 30 00 00 14 31 00 66 00 23 0D 3B 01 56 6C 03 31 2D 20 00 0F F1 F7", expected: false},
+    {patch: "F0 41 30 00 00 14 31 00 66 00 23 0D 3B 01 56 6C 03 31 2D 20 0F 00 01 F7", expected: true},
+    {patch: "F0 41 30 00 00 14 31 00 66 00 23 0D 3B 01 56 6C 03 31 2D 20 0F 0B 71 F7", expected: true}
+  ];
+isPwmControlledByLFOs.forEach(function (test) {
+  it("should set isPwmControlledByLFO based on first bit of byte 22 ", function () {
+    const patchNoSpaces = test.patch.replace(/\s/g, "");
+
+    const junoPatchData = hexToJuno106Converter.convert(patchNoSpaces);
+
+    expect(junoPatchData.isPwmControlledByLFO).to.equal(test.expected);
+  });
+});
+
+var isVcaControlledByEnvelopes = [
+    {patch: "F0 41 30 00 00 14 31 00 66 00 23 0D 3B 01 56 6C 03 31 2D 20 00 04 41 F7", expected: false},
+    {patch: "F0 41 30 00 00 14 31 00 66 00 23 0D 3B 01 56 6C 03 31 2D 20 00 0F F1 F7", expected: false},
+    {patch: "F0 41 30 00 00 14 31 00 66 00 23 0D 3B 01 56 6C 03 31 2D 20 0F 00 01 F7", expected: true},
+    {patch: "F0 41 30 00 00 14 31 00 66 00 23 0D 3B 01 56 6C 03 31 2D 20 0F 0B B1 F7", expected: true}
+  ];
+isVcaControlledByEnvelopes.forEach(function (test) {
+  it("should set isVcaControlledByEnvelope based on second bit of byte 22 ", function () {
+    const patchNoSpaces = test.patch.replace(/\s/g, "");
+
+    const junoPatchData = hexToJuno106Converter.convert(patchNoSpaces);
+
+    expect(junoPatchData.isVcaControlledByEnvelope).to.equal(test.expected);
+  });
+});
+
+var isVcfEnvelopePolarityPositives = [
+    {patch: "F0 41 30 00 00 14 31 00 66 00 23 0D 3B 01 56 6C 03 31 2D 20 00 04 21 F7", expected: false},
+    {patch: "F0 41 30 00 00 14 31 00 66 00 23 0D 3B 01 56 6C 03 31 2D 20 00 0F F1 F7", expected: false},
+    {patch: "F0 41 30 00 00 14 31 00 66 00 23 0D 3B 01 56 6C 03 31 2D 20 0F 00 01 F7", expected: true},
+    {patch: "F0 41 30 00 00 14 31 00 66 00 23 0D 3B 01 56 6C 03 31 2D 20 0F 0B D1 F7", expected: true}
+  ];
+isVcfEnvelopePolarityPositives.forEach(function (test) {
+  it("should set isVcfEnvelopePolarityPositive based on third bit of byte 22 ", function () {
+    const patchNoSpaces = test.patch.replace(/\s/g, "");
+
+    const junoPatchData = hexToJuno106Converter.convert(patchNoSpaces);
+
+    expect(junoPatchData.isVcfEnvelopePolarityPositive).to.equal(test.expected);
+  });
+});
+
+
+var highPassFilterLevels = [
+    {patch: "F0 41 30 00 00 14 31 00 66 00 23 0D 3B 01 56 6C 03 31 2D 20 00 02 FF F7", expected: highPassFilterLevel.highPassFilterLevels.ZERO},
+    {patch: "F0 41 30 00 00 14 31 00 66 00 23 0D 3B 01 56 6C 03 31 2D 20 00 0F 18 F7", expected: highPassFilterLevel.highPassFilterLevels.ZERO},
+    {patch: "F0 41 30 00 00 14 31 00 66 00 23 0D 3B 01 56 6C 03 31 2D 20 0F 00 F7 F7", expected: highPassFilterLevel.highPassFilterLevels.ONE},
+    {patch: "F0 41 30 00 00 14 31 00 66 00 23 0D 3B 01 56 6C 03 31 2D 20 0F 0D 10 F7", expected: highPassFilterLevel.highPassFilterLevels.ONE},
+    {patch: "F0 41 30 00 00 14 31 00 66 00 23 0D 3B 01 56 6C 03 31 2D 20 0F 00 EF F7", expected: highPassFilterLevel.highPassFilterLevels.TWO},
+    {patch: "F0 41 30 00 00 14 31 00 66 00 23 0D 3B 01 56 6C 03 31 2D 20 0F 0D 08 F7", expected: highPassFilterLevel.highPassFilterLevels.TWO},
+    {patch: "F0 41 30 00 00 14 31 00 66 00 23 0D 3B 01 56 6C 03 31 2D 20 0F 00 E7 F7", expected: highPassFilterLevel.highPassFilterLevels.THREE},
+    {patch: "F0 41 30 00 00 14 31 00 66 00 23 0D 3B 01 56 6C 03 31 2D 20 0F 0D 00 F7", expected: highPassFilterLevel.highPassFilterLevels.THREE}
+  ];
+highPassFilterLevels.forEach(function (test) {
+  it("should set highPassFilterLevel based on fourth and fifth bits of byte 22 ", function () {
+    const patchNoSpaces = test.patch.replace(/\s/g, "");
+
+    const junoPatchData = hexToJuno106Converter.convert(patchNoSpaces);
+
+    expect(junoPatchData.highPassFilterLevel).to.equal(test.expected);
+  });
+});
+
 
 });
